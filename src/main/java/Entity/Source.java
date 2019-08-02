@@ -71,11 +71,11 @@ public class Source {
 
     @Override
     public String toString() {
-        return "Source{" +
-                "title='" + title + '\'' +
-                ", slug='" + slug + '\'' +
-                ", url=" + url +
-                ", crawl_rate=" + crawl_rate +
+        return "Source{" + "\n" +
+                "title='" + title + '\'' + "\n" +
+                ", slug='" + slug + '\'' + "\n" +
+                ", url=" + url + "\n" +
+                ", crawl_rate=" + crawl_rate + "\n" +
                 '}';
     }
 }

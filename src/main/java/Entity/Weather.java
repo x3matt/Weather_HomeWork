@@ -18,6 +18,7 @@ public class Weather {
     private Double woeid;
     private String latt_long;
     private String timezone;
+    private Source[] sources;
 
     public Weather(ConsolidatedWeather[] consolidatedWeather,
                    String time,
@@ -29,7 +30,8 @@ public class Weather {
                    String location_type,
                    Double woeid,
                    String latt_long,
-                   String timezone){
+                   String timezone,
+                   Source[] sources) {
         this.consolidated_weather = consolidatedWeather;
         this.time = time;
         this.sun_rise = sun_rice;
@@ -41,6 +43,7 @@ public class Weather {
         this.woeid = woeid;
         this.latt_long = latt_long;
         this.timezone = timezone;
+        this.sources = sources;
     }
 
     public Weather() {
@@ -134,12 +137,20 @@ public class Weather {
         this.timezone = timezone;
     }
 
+    public Source[] getSources() {
+        return sources;
+    }
+
+    public void setSources(Source[] sources) {
+        this.sources = sources;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Weather)) return false;
         Weather weather = (Weather) o;
-        return getConsolidated_weather().equals(weather.getConsolidated_weather()) &&
+        return Arrays.equals(getConsolidated_weather(), weather.getConsolidated_weather()) &&
                 getTime().equals(weather.getTime()) &&
                 getSun_rise().equals(weather.getSun_rise()) &&
                 getSun_set().equals(weather.getSun_set()) &&
@@ -149,28 +160,34 @@ public class Weather {
                 getLocation_type().equals(weather.getLocation_type()) &&
                 getWoeid().equals(weather.getWoeid()) &&
                 getLatt_long().equals(weather.getLatt_long()) &&
-                getTimezone().equals(weather.getTimezone());
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(getConsolidated_weather(), getTime(), getSun_rise(), getSun_set(), getTimezone_name(), getParent(), getTitle(), getLocation_type(), getWoeid(), getLatt_long(), getTimezone());
+                getTimezone().equals(weather.getTimezone()) &&
+                Arrays.equals(getSources(), weather.getSources());
     }
 
     @Override
     public String toString() {
-        return "Weather{" + "\n"+
+        return "Weather{" + "\n" +
                 "consolidated_weather=" + Arrays.toString(consolidated_weather) + "\n" +
                 ", time='" + time + '\'' + "\n" +
                 ", sun_rise='" + sun_rise + '\'' + "\n" +
                 ", sun_set='" + sun_set + '\'' + "\n" +
-                ", timezone_name=" + timezone_name + "\n" +
+                ", timezone_name='" + timezone_name + '\'' + "\n" +
                 ", parent=" + parent + "\n" +
                 ", title='" + title + '\'' + "\n" +
                 ", location_type='" + location_type + '\'' + "\n" +
                 ", woeid=" + woeid + "\n" +
                 ", latt_long='" + latt_long + '\'' + "\n" +
                 ", timezone='" + timezone + '\'' + "\n" +
+                ", sources=" + Arrays.toString(sources) + "\n" +
                 '}';
+    }
+
+    @Override
+    public int hashCode() {
+        int result = Objects.hash(getTime(), getSun_rise(), getSun_set(), getTimezone_name(), getParent(), getTitle(), getLocation_type(), getWoeid(), getLatt_long(), getTimezone());
+        result = 31 * result + Arrays.hashCode(getConsolidated_weather());
+        result = 31 * result + Arrays.hashCode(getSources());
+        return result;
+
     }
 }
